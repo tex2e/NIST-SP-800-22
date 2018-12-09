@@ -3,7 +3,6 @@
 # https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-22r1a.pdf
 # 2.2 Frequency Test within a Block
 
-import math
 from fractions import Fraction
 from scipy.special import gammaincc as igamc
 

@@ -3,7 +3,6 @@
 # https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-22r1a.pdf
 # 2.4 Test for the Longest Run of Ones in a Block
 
-import math
 from scipy.special import gammaincc as igamc
 
 def get_longest_run_of_ones(bits):
