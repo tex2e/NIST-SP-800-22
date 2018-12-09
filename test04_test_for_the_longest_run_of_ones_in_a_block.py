@@ -11,8 +11,7 @@ def get_longest_run_of_ones(bits):
     for bit in bits:
         if bit == 1:
             run += 1
-            if run > longest:
-                longest = run
+            longest = max(run, longest)
         else:
             run = 0
 
