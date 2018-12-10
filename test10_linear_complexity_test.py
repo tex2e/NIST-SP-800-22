@@ -34,7 +34,7 @@ def berelekamp_massey(bits):
     # Return length of generator and the polynomial
     return L, c[0:L]
 
-def test(bits, blocklen):
+def test(bits, blocklen=1000):
     n = len(bits)
     M = blocklen
     N = n // M

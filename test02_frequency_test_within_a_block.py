@@ -6,7 +6,7 @@
 from fractions import Fraction
 from scipy.special import gammaincc as igamc
 
-def test(bits, blocklen):
+def test(bits, blocklen=10):
     n = len(bits)
     M = blocklen
     N = n // M

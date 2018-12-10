@@ -13,7 +13,7 @@ def block2int(block_bits):
         n = (n << 1) + bit
     return n
 
-def test(bits, blocklen):
+def test(bits, blocklen=2):
     n = len(bits)
     m = blocklen
     N = n // m

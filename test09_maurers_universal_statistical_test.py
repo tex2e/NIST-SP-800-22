@@ -11,10 +11,24 @@ def block2int(block_bits):
         n = (n << 1) + bit
     return n
 
-def test(bits, blocklen, initblock):
+def test(bits, blocklen=None, initblock=None):
     n = len(bits)
-    L = blocklen
-    Q = initblock
+    if blocklen and initblock:
+        L, Q = blocklen, initblock
+    else:
+        if   n < 387840:     return (-1,-1,False)
+        elif n < 904960:     L, Q = 6, 640
+        elif n < 2068480:    L, Q = 7, 1280
+        elif n < 4654080:    L, Q = 8, 2560
+        elif n < 10342400:   L, Q = 9, 5120
+        elif n < 22753280:   L, Q = 10, 10240
+        elif n < 49643520:   L, Q = 11, 20480
+        elif n < 107560960:  L, Q = 12, 40960
+        elif n < 231669760:  L, Q = 13, 81920
+        elif n < 496435200:  L, Q = 14, 163840
+        elif n < 1059061760: L, Q = 15, 327680
+        else:                L, Q = 16, 655360
+
     N = n // L
     K = N - Q  # remaining K blocks
     T = [ 0 for i in range(2**L) ]

@@ -6,7 +6,7 @@
 from numpy.linalg import matrix_rank
 from scipy.special import gammaincc as igamc
 
-def test(bits, rowlen, collen):
+def test(bits, rowlen=32, collen=32):
     n = len(bits)
     M = rowlen
     Q = collen
