@@ -60,7 +60,8 @@ def test(bits, blocklen=1000):
         else:           ν[6] += 1
 
     K = 6
-    π = [0.010417, 0.03125, 0.125, 0.5, 0.25, 0.0625, 0.020833]
+    π = [Fraction(0.010417), Fraction(0.03125), Fraction(0.125),
+         Fraction(0.5), Fraction(0.25), Fraction(0.0625), Fraction(0.020833)]
     χ2_obs = sum([ (ν[i] - N * π[i])**2 / (N * π[i]) for i in range(K) ])
     P_value = igamc(K/2.0, χ2_obs/2.0)
     level = 0.01

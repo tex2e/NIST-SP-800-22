@@ -27,5 +27,6 @@ if __name__ == '__main__':
            "00001000110100110001001100011001100010100010111000"
     bits = [ int(c) for c in bits ]
     P_value, level, ok = test(bits)
+    print(P_value)
     assert round(P_value, 6) == 0.109599
     assert ok

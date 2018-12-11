@@ -3,27 +3,22 @@
 # https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-22r1a.pdf
 # 2.4 Test for the Longest Run of Ones in a Block
 
+from fractions import Fraction
 from scipy.special import gammaincc as igamc
-
-def get_longest_run_of_ones(bits):
-    run = 0
-    longest = 0
-    for bit in bits:
-        if bit == 1:
-            run += 1
-            longest = max(run, longest)
-        else:
-            run = 0
-
-    return longest
 
 def prob_table(M):
     return {
-        8:     [0.2148, 0.3672, 0.2305, 0.1875],
-        128:   [0.1174, 0.2430, 0.2493, 0.1752, 0.1027, 0.1124],
-        512:   [0.1170, 0.2460, 0.2523, 0.1755, 0.1027, 0.1124],
-        1000:  [0.1307, 0.2437, 0.2452, 0.1714, 0.1002, 0.1088],
-        10000: [0.0882, 0.2092, 0.2483, 0.1933, 0.1208, 0.0675, 0.0727],
+        8:     [Fraction(0.2148), Fraction(0.3672), Fraction(0.2305),
+                Fraction(0.1875)],
+        128:   [Fraction(0.1174), Fraction(0.2430), Fraction(0.2493),
+                Fraction(0.1752), Fraction(0.1027), Fraction(0.1124)],
+        512:   [Fraction(0.1170), Fraction(0.2460), Fraction(0.2523),
+                Fraction(0.1755), Fraction(0.1027), Fraction(0.1124)],
+        1000:  [Fraction(0.1307), Fraction(0.2437), Fraction(0.2452),
+                Fraction(0.1714), Fraction(0.1002), Fraction(0.1088)],
+        10000: [Fraction(0.0882), Fraction(0.2092), Fraction(0.2483),
+                Fraction(0.1933), Fraction(0.1208), Fraction(0.0675),
+                Fraction(0.0727)],
     }[M]
 
 def test(bits):
@@ -41,7 +36,16 @@ def test(bits):
     blocks = [ bits[i*M : (i+1)*M] for i in range(N) ]
     ν = [0] * 7
     for i in range(N):
-        longest = get_longest_run_of_ones(blocks[i])
+        # get longest run of ones
+        run = 0
+        longest = 0
+        for bit in blocks[i]:
+            if bit == 1:
+                run += 1
+                if run > longest:
+                    longest = run
+            else:
+                run = 0
 
         if M == 8:
             if   longest <= 1:  ν[0] += 1
@@ -88,5 +92,6 @@ if __name__ == '__main__':
            "1100111001101101100010110010"
     bits = [ int(c) for c in bits ]
     P_value, level, ok = test(bits)
+    print(P_value)
     assert round(P_value, 6) == 0.180598
     assert ok

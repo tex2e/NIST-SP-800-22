@@ -4,6 +4,7 @@
 # 2.7 Non-overlapping Template Matching Test
 
 import random
+from fractions import Fraction
 from scipy.special import gammaincc as igamc
 
 templates = {
@@ -55,7 +56,7 @@ def test(bits, blocklen=None, template=None):
 
     N = n // M
     blocks = [ bits[i*M : (i+1)*M] for i in range(N) ]
-    B = template if template else random.choise(templates[8])
+    B = template if template else random.choices(templates[8])
     m = len(B)
 
     ν = [0] * 6
@@ -71,7 +72,8 @@ def test(bits, blocklen=None, template=None):
             ν[count] += 1
 
     # λ = (M - m + 1) / 2**m  ~~ 2
-    π = [0.364091, 0.185659, 0.139381, 0.100571, 0.070432, 0.139865]
+    π = [Fraction(0.364091), Fraction(0.185659), Fraction(0.139381),
+         Fraction(0.100571), Fraction(0.070432), Fraction(0.139865)]
     χ2_obs = sum([ (ν[i] - N * π[i])**2 / (N * π[i]) for i in range(6) ])
     P_value = igamc(5/2.0, χ2_obs/2.0)
     level = 0.01

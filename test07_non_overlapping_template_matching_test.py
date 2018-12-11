@@ -55,7 +55,7 @@ def test(bits, blocklen=None, template=None):
         return (-1,-1,False)
     N = n // M
     blocks = [ bits[i*M : (i+1)*M] for i in range(N) ]
-    B = template if template else random.choise(templates[8])
+    B = template if template else random.choices(templates[8])
     m = len(B)
 
     W = []
@@ -70,7 +70,7 @@ def test(bits, blocklen=None, template=None):
                 position += 1
         W.append(count)
 
-    μ = (M - m + 1) / 2**m
+    μ = Fraction(M - m + 1, 2**m)
     σ2 = M * (Fraction(1, 2**m) - Fraction(2*m-1, 2**(2*m)))
     χ2_obs = sum([ (W[j] - μ)**2 for j in range(N) ]) / σ2
     P_value = igamc(N/2.0, χ2_obs/2.0)

@@ -4,6 +4,7 @@
 # 2.12 Approximate Entropy Test
 
 import math
+from fractions import Fraction
 from scipy.special import gammaincc as igamc
 
 def block2int(block_bits):
@@ -25,10 +26,10 @@ def test(bits, blocklen=2):
             idx = block2int(padded_bits[j:j+m])
             counts[idx] += 1
 
-        C[m] = [ cnt / n for cnt in counts ]
+        C[m] = [ Fraction(cnt, n) for cnt in counts ]
         def f(i):
             if C[m][i] == 0: return 0
-            return C[m][i] * math.log(C[m][i])
+            return C[m][i] * Fraction(math.log(C[m][i]))
 
         φ[m] = sum([ f(i) for i in range(2**m) ])
 

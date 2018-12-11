@@ -3,6 +3,7 @@
 # https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-22r1a.pdf
 # 2.5 Binary Matrix Rank Test
 
+from fractions import Fraction
 from numpy.linalg import matrix_rank
 from scipy.special import gammaincc as igamc
 
@@ -24,13 +25,9 @@ def test(bits, rowlen=32, collen=32):
         elif R[i] == M-1: F_M_1 += 1
 
     F = [F_M, F_M_1, N - F_M - F_M_1]
-    π = [0.2888, 0.5776, 0.1336]
-
+    π = [Fraction(0.2888), Fraction(0.5776), Fraction(0.1336)]
     χ2_obs = sum([ (F[i] - N * π[i])**2 / (N * π[i]) for i in range(3) ])
-    print(χ2_obs)
-
     P_value = igamc(1, χ2_obs/2.0)
-
     level = 0.01
     return (P_value, level, P_value >= level)
 
@@ -40,5 +37,6 @@ if __name__ == '__main__':
     bits = "01011001001010101101"
     bits = [ int(c) for c in bits ]
     P_value, level, ok = test(bits, rowlen=3, collen=3)
+    print(P_value)
     assert round(P_value, 6) == 0.741948
     assert ok

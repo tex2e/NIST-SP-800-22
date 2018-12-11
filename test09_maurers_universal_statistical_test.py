@@ -4,6 +4,7 @@
 # 2.9 Maurer's "Universal Statistical" Test
 
 import math
+from fractions import Fraction
 
 def block2int(block_bits):
     n = 0
@@ -42,10 +43,10 @@ def test(bits, blocklen=None, initblock=None):
         L_bit_value = block2int(blocks[i])
         block_i = i + 1
         a = math.log(block_i - T[L_bit_value], 2)
-        total += math.log(block_i - T[L_bit_value], 2)
+        total += Fraction(math.log(block_i - T[L_bit_value], 2))
         T[L_bit_value] = i + 1
 
-    f_n = total / K
+    f_n = Fraction(total, K)
     table = [(0, 0), (0.73264948, 0.69), (1.5374383, 1.338), (2.40160681, 1.901),
              (3.31122472, 2.358), (4.25342659, 2.705), (5.2177052, 2.954),
              (6.1962507, 3.125), (7.1836656, 3.238), (8.1764248, 3.311),
@@ -53,7 +54,8 @@ def test(bits, blocklen=None, initblock=None):
              (12.16807, 3.41), (13.167693, 3.416), (14.167488, 3.419),
              (15.167379, 3.421)]
     expectedValue, σ2 = table[L]
-    P_value = math.erfc(abs((f_n - expectedValue) / (math.sqrt(2 * σ2))))
+    expectedValue, σ2 = Fraction(expectedValue), Fraction(σ2)
+    P_value = math.erfc(abs((f_n - expectedValue) / Fraction(math.sqrt(2 * σ2))))
     level = 0.01
     return (P_value, level, P_value >= level)
 
